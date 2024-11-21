@@ -49,7 +49,6 @@ To set up the project locally:
 ## Resources
 - [HyperScript Documentation](https://hyperscript.org/docs)
 - [HyperScript GitHub Repository](https://github.com/bigskysoftware/_hyperscript)
-- [Project Demo](#) *(Replace with your hosted link if available)*
 
 ## Author
 
