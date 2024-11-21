@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HyperScript</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+    <!--This script applies to the body of the document-->
+    <script type="text/hyperscript">
+      init
+        // Log the number of cookies and each cookie
+        log "Cookies " + cookies.length
+        for c in cookies
+        log c
+        end
+
+        // Work with arrays
+        set myArr to [1, 2, 3]
+        log the first of myArr  -- logs "1"
+        log the last of myArr   -- logs "3"
+        log random in myArr     -- logs a random element from the array
+
+        // Create and log a URL
+        make a URL from "/path/", "https://origin.example.com" called myURL
+        log myURL
+
+        // Repeat over an array and log each element
+        repeat in [1, 2, 3]
+          log it
+        end
+
+        // String concatenation and logging
+        set hello to 'hello'
+        set world to "world"
+        set helloWorld to beep! (hello + " " + world)
+        set helloWorld to beep! `${hello} ${world}`
+
+        // Get and append strings, then log the result
+        get "hello"      -- set result to "hello"
+        append " world2"  -- append " world" to the result
+        log it           -- log it to the console
+      end
+
+      // Define a function that waits for 2 seconds and returns a message
+      def waitAndReturn()
+        wait 2s
+        return "I waited..."
+      end
+
+      // Define a behavior for removing an element when a button is clicked
+      behavior Removable(removeButton)
+        on click from removeButton
+          remove me
+        end
+      end
+    </script>
+    </head>
+    <body>
+    <p><button _="on click toggle .red on me">Toggle Red</button></p>
+
+    <p>
+      <button _="on click call alert('You clicked me!')">Call an alert!</button>
+    </p>
+
+    <p>
+      <button
+      _="on click if true log 'Clicked!' end 
+      on mouseenter log 'Mouse entered!'"
+      >
+      Log when click and when mouse enters
+      </button>
+    </p>
+
+    <p>
+      <button _="on click set $x to 10 then log x">
+      Set global X and log it
+      </button>
+    </p>
+
+    <p>
+      <button _="on click increment $x then put it into the next <output/>">
+      Increment global X
+      </button>
+      <output>--</output>
+    </p>
+
+    <p>
+      <button _="on click increment :x then put it into the next <output/>">
+      Increment local X
+      </button>
+      <output>--</output>
+    </p>
+
+    <p>
+      <button
+      _="on click increment @placeholder of next <input /> then put it into the next <output/>"
+      >
+      Increment attribute
+      </button>
+      <output>--</output>
+      <input type="text" placeholder="0" />
+    </p>
+
+    <p>
+      <button
+      _='on click set x to {name : "Joe", age: 35} 
+        then log x.name 
+        then log x["name"] 
+        then log the age of x'
+      >
+      Set object and log its properties
+      </button>
+    </p>
+
+    <!-- Increment local X with a maximum value of 3 -->
+    <p>
+      <button
+      _="on click increment :x
+        if :x <= 3
+          put :x into the next <output/>
+        else
+          put '3 is the max...' into the next <output/>"
+      >
+      Increment local X with max
+      </button>
+      <output>--</output>
+    </p>
+
+    <!-- Toggle the border of the next button and toggle the background color unless it has a border -->
+    <p>
+      <button _="on click toggle .bordered on #second-button">
+      Toggle Next Border
+      </button>
+      <button
+      id="second-button"
+      _="on click toggle .red unless I match .bordered"
+      >
+      Toggle My Background
+      </button>
+    </p>
+
+    <!-- Toggle yellow border on all buttons -->
+    <p>
+      <button
+      _="on click 
+      if I match .yellow-border 
+        remove .yellow-border from <button /> 
+      else 
+        add .yellow-border to  <button />"
+      >
+      Turn every button border to yellow
+      </button>
+    </p>
+
+    <!-- Increment data-counter attribute and disable button after 5 clicks -->
+    <p>
+      <button
+      _="on click
+        increment @data-counter
+        if @data-counter as Int is greater than 4
+          add @disabled -- disable after the 5th click"
+      >
+      Increment data-counter and disable after 5 clicks
+      </button>
+    </p>
+
+    <!-- Convert input value to integer, increment it, and display the result -->
+    <p>
+      <span>EXAMPLE: CONVERTING VALUES</span>
+      <button
+      _="on click
+         get the (value of the next <input/>) as an Int
+         increment it
+         put it into the next <output/>"
+      >
+      Add 1 To :
+      </button>
+      <input />
+      <output>--</output>
+    </p>
+
+    <!-- Queue different increments and display the result after 1 second -->
+    <p>
+      <button
+      _="on click queue all
+        increment @count of closest parent <p/>
+        wait 1s then put it into the next <output/>"
+      >
+      Queue All +1
+      </button>
+      <button
+      _="on click queue first
+        increment @count of closest parent <p/>
+        wait 1s then put it into the next <output/>"
+      >
+      Queue First + 1
+      </button>
+      <button
+      _="on click queue none
+        increment @count of closest parent <p/> by 2
+        wait 1s then put it into the next <output/>"
+      >
+      Queue None +2
+      </button>
+      <output>--</output>
+    </p>
+
+    <!-- Display the mouse button used to click -->
+    <p>
+      <button _="on mousedown(button) put the button into the next <output/>">
+      Click Me With Different Buttons...
+      </button>
+      <output>--</output>
+      <button _="on mousedown[button==1] add .clicked">
+      Middle-Click To Add The "clicked" Class To Me
+      </button>
+    </p>
+
+    <!-- Send custom events and display messages based on the event received -->
+    <p>
+      <button _="on click send foo to the next <output/>">Send Foo</button>
+      <button _="on click trigger bar on the next <output/>">Send Bar</button>
+      <output
+      _="on foo put 'I got a foo event!' into me
+       on bar put 'I got a bar event!' into me"
+      >
+      No Events Yet...
+      </output>
+    </p>
+
+    <!-- Send custom messages and display them -->
+    <p>
+      <button
+      _="on click send showMessage(message:'Foo!') to the next <output/>"
+      >
+      Send Foo
+      </button>
+      <button
+      _="on click send showMessage(message:'Bar!') to the next <output/>"
+      >
+      Send Bar
+      </button>
+      <output
+      _="on showMessage(message) put `The message '${message}' was sent to me` into me"
+      >
+      No Events Yet...
+      </output>
+    </p>
+
+    <!-- Increment mutation count on contenteditable span and display it -->
+    <p>
+      <span
+      class="border"
+      contenteditable="true"
+      _="on mutation of anything increment :mutationCount then put it into the next <output/>"
+      >
+      Hello World
+      </span>
+      <output>--</output>
+    </p>
+
+    <!-- Log a message when the image is initialized and change opacity based on intersection -->
+    <img
+      _="init log waitAndReturn() end
+      on intersection(intersecting) having threshold 0.5
+        if intersecting transition opacity to 1
+        else transition opacity to 0 over 1 seconds"
+      src="https://placebear.com/200/300"
+    />
+
+    <!-- Disable button for 2 seconds, increment local x, and display it -->
+    <p>
+      <button
+      _="on click
+          add @disabled to me
+          wait 2s
+          increment :x by 1
+          put :x into the next <output/>
+        finally
+          remove @disabled from me"
+      >
+      Disable Me For 2 Seconds
+      </button>
+      <output>--</output>
+    </p>
+
+    <!-- Increase button width by 50px unless it exceeds 80% of window width -->
+    <p>
+      <button
+      _="init
+          set *width to 150 px
+        end
+        on click 
+          increment my *width by 50 px
+          set my *width to it px 
+          unless my *width as Int > window.innerWidth * 0.8"
+      >
+      Increase Width
+      </button>
+    </p>
+
+    <!-- Remove the next span and disable the button -->
+    <p>
+      <button
+      _="on click remove next <span/>
+        set @disabled to 'disabled'
+        put 'I am disabled' into me"
+      >
+      Click to remove this to my right
+      </button>
+      <span>NO! DON'T DELETE ME!</span>
+    </p>
+
+    <!-- Toggle the display of the next span -->
+    <p>
+      <button _="on click toggle the *display of the next <span/>">
+      Toggle The Next Paragraph
+      </button>
+      <span style="display: none">Hyperscript is rad!</span>
+    </p>
+
+    <!-- Hide button with visibility, wait 2 seconds, then show it -->
+    <p>
+      <button
+      _="on click
+        hide me with visibility
+        wait 2s
+        show me with visibility"
+      >
+      Peekaboo
+      </button>
+    </p>
+
+    <!-- Show list items in #color-list that contain the input value -->
+    <div class="border">
+      <input
+      _="on keyup show <li/> in #color-list
+        when it's innerHTML contains my value"
+      />
+      <ul id="color-list">
+      <li>Red</li>
+      <li>Blue</li>
+      <li>Blueish Green</li>
+      <li>Green</li>
+      <li>Yellow</li>
+      </ul>
+    </div>
+
+    <!-- Transition font size of button to 30px, wait 2 seconds, then reset -->
+    <p>
+      <button
+      _="on click 
+        queue none 
+        transition my *font-size to 30px
+        then wait 2s
+        then transition my *font-size to initial"
+      >
+      Transition My Font Size
+      </button>
+    </p>
+
+    <!-- Transition background color of button to red, then back to initial -->
+    <p>
+      <button
+        class="pulsar"
+        _="on click 
+            add .red then settle
+            add .exit then settle   
+            remove .red .exit"
+      >
+        Flash Red
+      </button>
+    </p>
+
+    <!-- Remove the next span when the button is clicked -->
+    <p>
+      <button
+        _="on click measure my top then
+                  put `My top is ${top}` into the next <output/>"
+      >
+        Click Me To Measure My Top
+      </button>
+      <output>--</output>
+    </p>
+
+    <!-- Get the computed width of the button when clicked -->
+    <p>
+      <button
+        _="on click get my *computed-width
+                  put `My width is ${the result}` into the next <output/>"
+      >
+        Click Me To Get My Computed Width
+      </button>
+      <output>--</output>
+    </p>
+
+    <!-- Fetch a message and display it when the button is clicked -->
+    <p>
+      <button
+      _="on click fetch /clickedMessage then
+            put the result into the next <output/>"
+      >
+      Fetch It
+      </button>
+      <output>--</output>
+    </p>
+
+    <!-- Scroll to the top of the body smoothly, wait 2 seconds, then scroll to the bottom of the button smoothly -->
+    <p>
+      <button
+      _="on click
+        go to the top of the body smoothly
+        wait 2s
+        go to the bottom of me smoothly"
+      >
+      Take A Trip
+      </button>
+    </p>
+
+    <!-- Navigate to the htmx website when the button is clicked -->
+    <p>
+      <button _="on click go to url https://htmx.org">Go Check Out htmx</button>
+    </p>
+
+    <!-- Display 'Started...', wait for a continue event or 3 seconds, then display 'Finished...' or 'Timed Out...' -->
+    <p>
+      <button
+      _="on click put 'Started...' into the next <output/>
+            wait for a continue   -- wait for a continue event...
+            put 'Finished...' into the next <output/>
+            wait 2s
+            put '' into the next <output/>"
+      >
+      Start
+      </button>
+      <button _="on click send continue to the previous <button/>">
+      Continue
+      </button>
+      <output>--</output>
+    </p>
+
+    <!-- Display 'Started...', wait for a continue event or 3 seconds, then display 'Finished...' or 'Timed Out...' -->
+    <p>
+      <button
+      _="on click put 'Started...' into the next <output/>
+            wait for a continue or 3s   -- wait for a continue event...
+            if the result's type is 'continue'
+            put 'Finished...' into the next <output/>
+            otherwise
+            put 'Timed Out...' into the next <output/>
+            end
+            wait 2s
+            put '--' into the next <output/>"
+      >
+      Start
+      </button>
+      <button _="on click send continue to the previous <button/>">
+      Continue
+      </button>
+      <output>--</output>
+    </p>
+
+    <!-- Toggle the red class on mouse enter and leave -->
+    <p _="on mouseenter toggle .red until mouseleave">
+      Mouse Over Me To Turn Me Red!
+    </p>
+
+    <!-- Pulse the button by adding and removing classes repeatedly until stopped -->
+    <p>
+      <button
+      class="pulsar"
+      _="on click repeat until event stop
+          add .red then settle
+          add .exit then settle
+          remove .red .exit then settle"
+      >
+      Click me to Pulse...
+      </button>
+      <button _="on click send stop to the previous <button/>">Cancel</button>
+    </p>
+
+    <!-- Remove the next span when the button is clicked -->
+    <p>
+      <span class="banner" _="install Removable(removeButton: next <button/>)">
+      Close me?</span
+      >
+      <button>Click to remove previous span</button>
+    </p>
+
+    <!-- Change the color of the next span when the button is clicked -->
+    <div>
+      <button
+      _="init 
+          set :span to next <span/> 
+        end
+        on click 
+          if :span's *color matches 'red'
+            put 'blue' into *color of :span
+          else
+            put 'red' into *color of :span
+          end
+        end"
+      >
+      Try to change the color
+      </button>
+      <span>This user content is scriptable</span>
+      <button
+      data-disable-scripting
+      _="on click put 'red' into *color of the next <span/>"
+      >
+      Try to change the color
+      </button>
+      <span data-disable-scripting>This user content is not scriptable</span>
+    </div>
+
+    <!-- Transition opacity to 0 and remove the button when clicked -->
+    <p>
+      <button _="on click transition opacity to 0 then remove me">
+      Remove Me
+      </button>
+    </p>
+
+    <!-- Transition color to red and back to inherit when clicked -->
+    <p>
+      <button
+      _="on click transition color to 'red' 
+      then settle
+      then transition color to 'inherit'
+      then settle"
+      >
+      Toggle class without css
+      </button>
+    </p>
+
+    <!-- Debounce input and update the span with the input value -->
+    <div>
+      <input
+      _="on keyup debounced at 300ms
+        put my.value into #debounce-target-3"
+      />
+      <span id="debounce-target-3"></span>
+    </div>
+
+    <!-- Button that triggers an event on a target element and disables itself -->
+    <div>
+      <button
+      _="on click 
+          send doIt to #event-target-3 
+          then set @disabled to 'disabled'"
+      >
+      Trigger Event
+      </button>
+      <span id="event-target-3" _="on doIt remove me">Event Target</span>
+    </div>
+
+    <!-- Button that shows a hidden element when clicked -->
+    <div>
+      <button _="on click show #show-target-3">Show Element</button>
+      <span style="display: none" id="show-target-3">Hidden Element</span>
+    </div>
+
+    <!-- Button that toggles the text color to red -->
+    <p>
+      <button _="on click toggle [@style=color: red]">
+      Toggle text color (1 liner)
+      </button>
+    </p>
+
+    <!-- Draggable buttons and a drop target that displays the dragged text -->
+    <div class="border">
+      <p
+      _="on dragstart call event.dataTransfer.setData('text/plain',target.textContent)"
+      >
+      <button class="btn primary" draggable="true">DRAG ME</button>
+      <button class="btn primary" draggable="true">OR ME</button>
+      </p>
+      <fieldset
+      _=" init
+          set *height to 3rem
+        on dragover or dragenter 
+          halt the event 
+          then set the target's style.background to 'lightgray' on dragleave 
+          or drop set the target's style.background to '' 
+        on drop 
+          get event.dataTransfer.getData('text/plain') 
+          then put it into the next <output />"
+      >
+      <legend>Drop Here</legend>
+      </fieldset>
+      Result: <output></output>
+    </div>
+
+    <!-- Button that toggles the red class when clicked with the alt key pressed -->
+    <p>
+      <button
+      _="init
+          add .red
+        on click[event.altKey] 
+          remove .red 
+          then settle 
+          then add .red"
+      >
+      Click me with alt key pressed
+      </button>
+    </p>
+
+    <!-- Table with a filterable input field -->
+    <table>
+      <thead>
+      <tr>
+        <th>
+        <input
+          _="on input
+     show <tbody>tr/> in closest <table/>
+     when its textContent.toLowerCase() contains my value.toLowerCase()
+    "
+        />
+        </th>
+      </tr>
+      </thead>
+      <tbody style="height: 10em; display: block; overflow-y: scroll">
+      <tr>
+        <td>Foo Bar</td>
+        <td>Item 1</td>
+      </tr>
+      <tr>
+        <td>Boo Bar</td>
+        <td>Item 2</td>
+      </tr>
+      <tr>
+        <td>Gru Bar</td>
+        <td>Item 3</td>
+      </tr>
+      <tr>
+        <td>Zoo Bar</td>
+        <td>Item 4</td>
+      </tr>
+      <tr>
+        <td>Foo Bar</td>
+        <td>Item 5</td>
+      </tr>
+      <tr>
+        <td>Random Word 1</td>
+        <td>Item 6</td>
+      </tr>
+      <tr>
+        <td>Random Word 2</td>
+        <td>Item 7</td>
+      </tr>
+      <tr>
+        <td>Random Word 3</td>
+        <td>Item 8</td>
+      </tr>
+      <tr>
+        <td>Random Word 4</td>
+        <td>Item 9</td>
+      </tr>
+      <tr>
+        <td>Random Word 5</td>
+        <td>Item 10</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <!-- Button that logs the closest parent div when clicked -->
+    <button _="on click log the closest parent <div/>">Log parent div</button>
+
+    <!-- Button that removes the next span when clicked -->
+    <div>
+      <button
+      _="on click 
+          tell next <span/> 
+            remove yourself"
+      >
+      Remove text
+      </button>
+      <span>I am a text</span>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+/* Class for a semi-transparent red background */
+.red {
+  background-color: hsl(0 100% 50% / 50%);
+}
+
+/* Class for a very light red background */
+.soft-red {
+  background-color: hsl(0 100% 50% / 5%);
+}
+
+/* Class for a green dashed border */
+.bordered {
+  border: 3px dashed green;
+}
+
+/* Styling for buttons */
+button {
+  margin: 0.25rem;
+  text-align: center;
+}
+
+/* Class for a solid yellow border */
+.yellow-border {
+  border: 3px solid yellow;
+}
+
+/* Class for adding text after an element when clicked */
+.clicked:after {
+  content: " ...clicked";
+  color: red;
+}
+
+/* Class for a black border with padding and margin */
+.border {
+  border: 1px solid black;
+  padding: 0.25rem;
+  margin: 0.25rem;
+}
+
+/* Class for fade-out animation */
+.exit {
+  animation: fade-out 1s;
+}
+
+/* Keyframes for fade-out animation */
+@keyframes fade-out {
+  to {
+    background-color: inherit;
+  }
+}
+
+/* Styling for direct child divs of body */
+body > div {
+  margin: 0.5rem 0.25rem;
+}
+
+/* Class for smooth background-color transition */
+.pulsar {
+  transition: background-color 800ms ease-in-out;
+}
