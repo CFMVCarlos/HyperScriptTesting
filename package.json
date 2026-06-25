@@ -1,0 +1,25 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "**HyperScriptTesting** is a sandbox project for experimenting with **HyperScript**, a lightweight scripting language designed to make web development more expressive and interactive. This project demonstrates how HyperScript can simplify tasks like DOM manipulation, event handling, and animations directly within HTML.",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CFMVCarlos/HyperScriptTesting.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/CFMVCarlos/HyperScriptTesting/issues"
+  },
+  "homepage": "https://github.com/CFMVCarlos/HyperScriptTesting#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "http-server": "^14.1.1"
+  }
+}
