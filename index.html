@@ -334,8 +334,10 @@
     <!-- Show list items in #color-list that contain the input value -->
     <div class="border">
       <input
-      _="on keyup show <li/> in #color-list
-        when it's innerHTML contains my value"
+      _="on keyup
+        set val to my value
+        show <li/> in #color-list
+        when it's innerHTML contains val"
       />
       <ul id="color-list">
       <li>Red</li>
