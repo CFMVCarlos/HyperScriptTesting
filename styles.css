@@ -3,11 +3,6 @@
   background-color: hsl(0 100% 50% / 50%);
 }
 
-/* Class for a very light red background */
-.soft-red {
-  background-color: hsl(0 100% 50% / 5%);
-}
-
 /* Class for a green dashed border */
 .bordered {
   border: 3px dashed green;
