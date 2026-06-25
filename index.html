@@ -33,7 +33,6 @@
         // String concatenation and logging
         set hello to 'hello'
         set world to "world"
-        set helloWorld to beep! (hello + " " + world)
         set helloWorld to beep! `${hello} ${world}`
 
         // Get and append strings, then log the result
@@ -399,7 +398,7 @@
     <p>
       <button
       _="on click fetch /clickedMessage then
-            put the result into the next <output/>"
+            put the result into textContent of the next <output/>"
       >
       Fetch It
       </button>
@@ -423,7 +422,7 @@
       <button _="on click go to url https://htmx.org">Go Check Out htmx</button>
     </p>
 
-    <!-- Display 'Started...', wait for a continue event or 3 seconds, then display 'Finished...' or 'Timed Out...' -->
+    <!-- Display 'Started...', wait for a continue event, then display 'Finished...' -->
     <p>
       <button
       _="on click put 'Started...' into the next <output/>
@@ -440,7 +439,7 @@
       <output>--</output>
     </p>
 
-    <!-- Display 'Started...', wait for a continue event or 3 seconds, then display 'Finished...' or 'Timed Out...' -->
+    <!-- Display 'Started...', wait up to 3s for a continue event, then display 'Finished...' or 'Timed Out...' -->
     <p>
       <button
       _="on click put 'Started...' into the next <output/>
@@ -537,7 +536,7 @@
     <div>
       <input
       _="on keyup debounced at 300ms
-        put my.value into #debounce-target-3"
+        put my.value into textContent of #debounce-target-3"
       />
       <span id="debounce-target-3"></span>
     </div>
@@ -584,7 +583,7 @@
           or drop set the target's style.background to '' 
         on drop 
           get event.dataTransfer.getData('text/plain') 
-          then put it into the next <output />"
+          then put it into the textContent of the next <output />"
       >
       <legend>Drop Here</legend>
       </fieldset>
@@ -612,8 +611,9 @@
         <th>
         <input
           _="on input
+     set val to my value.toLowerCase()
      show <tbody>tr/> in closest <table/>
-     when its textContent.toLowerCase() contains my value.toLowerCase()
+     when its textContent.toLowerCase() contains val
     "
         />
         </th>
