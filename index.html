@@ -221,8 +221,8 @@
       <button _="on click send foo to the next <output/>">Send Foo</button>
       <button _="on click trigger bar on the next <output/>">Send Bar</button>
       <output
-      _="on foo put 'I got a foo event!' into me
-       on bar put 'I got a bar event!' into me"
+      _="on foo put 'I got a foo event!' into textContent of me
+       on bar put 'I got a bar event!' into textContent of me"
       >
       No Events Yet...
       </output>
@@ -241,7 +241,7 @@
       Send Bar
       </button>
       <output
-      _="on showMessage(message) put `The message '${message}' was sent to me` into me"
+      _="on showMessage(message) put `The message '${message}' was sent to me` into textContent of me"
       >
       No Events Yet...
       </output>
@@ -304,7 +304,7 @@
       <button
       _="on click remove next <span/>
         set @disabled to 'disabled'
-        put 'I am disabled' into me"
+        put 'I am disabled' into textContent of me"
       >
       Click to remove this to my right
       </button>
