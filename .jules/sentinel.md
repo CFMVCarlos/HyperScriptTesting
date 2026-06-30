@@ -1,0 +1,4 @@
+## 2024-06-30 - DOM-based XSS via HyperScript default innerHTML assignment
+**Vulnerability:** The default behavior of HyperScript's `put <expression> into <target>` command modifies the `innerHTML` of the target element. This allows malicious code execution (XSS) if untrusted input is processed without sanitization.
+**Learning:** This vulnerability is specific to how HyperScript implicitly converts `put` operations into `innerHTML` assignments when targeting DOM elements. It was identified in custom event handlers (like `showMessage`) taking parameters that aren't sanitized.
+**Prevention:** To safely assign data, especially any untrusted or user-controlled input, always explicitly specify `textContent` as the assignment target. For example, use `put the result into textContent of me` instead of `put the result into me`.
